@@ -11,6 +11,7 @@ environment = "roblox"
 default = "https://github.com/pesde-pkg/index"
 
 [scripts]
+generate_block_properties = "./block_properties/generate.luau"
 roblox_sync_config_generator = ".pesde/scripts/roblox_sync_config_generator.luau"
 sourcemap_generator = ".pesde/scripts/sourcemap_generator.luau"
 
