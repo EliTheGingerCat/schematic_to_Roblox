@@ -1,4 +1,4 @@
-local Types = require(script.Parent:FindFirstChild('Types'))
+local Types = require("./Types")
 
 export type IHDR = {
 	width: number,

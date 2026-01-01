@@ -1,12 +1,12 @@
 --!native
 --!optimize 2
 
-local ChunkTypes = require(script:FindFirstChild('ChunkTypes'))
-local Types = require(script:FindFirstChild('Types'))
+local ChunkTypes = require("@self/ChunkTypes")
+local Types = require("@self/Types")
 
-local chunkReaders = require(script:FindFirstChild('chunks'))
-local crc32 = require(script:FindFirstChild('crc32'))
-local inflate = require(script:FindFirstChild('inflate'))
+local chunkReaders = require("@self/chunks")
+local crc32 = require("@self/crc32")
+local inflate = require("@self/inflate")
 
 local COLOR_TYPE_CHANNELS = {
 	[0] = 1,

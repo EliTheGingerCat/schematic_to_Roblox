@@ -1,5 +1,5 @@
-local ChunkTypes = require(script.Parent.Parent:FindFirstChild('ChunkTypes'))
-local Types = require(script.Parent.Parent:FindFirstChild('Types'))
+local ChunkTypes = require("../ChunkTypes")
+local Types = require("../Types")
 
 local COLOR_TYPE_BIT_DEPTH = {
 	[0] = { 1, 2, 4, 8, 16 },

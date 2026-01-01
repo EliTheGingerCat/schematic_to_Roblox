@@ -1,5 +1,5 @@
-local ChunkTypes = require(script.Parent.Parent:FindFirstChild('ChunkTypes'))
-local Types = require(script.Parent.Parent:FindFirstChild('Types'))
+local ChunkTypes = require("../ChunkTypes")
+local Types = require("../Types")
 
 local function read(buf: buffer, chunk: Types.Chunk, header: ChunkTypes.IHDR): ChunkTypes.PLTE
 	assert(chunk.length % 3 == 0, "malformed PLTE chunk")

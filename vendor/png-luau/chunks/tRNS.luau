@@ -1,5 +1,5 @@
-local ChunkTypes = require(script.Parent.Parent:FindFirstChild('ChunkTypes'))
-local Types = require(script.Parent.Parent:FindFirstChild('Types'))
+local ChunkTypes = require("../ChunkTypes")
+local Types = require("../Types")
 
 local function readU16(buf: buffer, offset: number, depth: number)
 	return bit32.extract(

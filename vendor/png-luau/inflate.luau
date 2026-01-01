@@ -1,7 +1,7 @@
 --!native
 --!optimize 2
 
-local HuffmanTable = require(script.Parent:FindFirstChild('HuffmanTable'))
+local HuffmanTable = require("./HuffmanTable")
 -- stylua: ignore
 
 local LIT_LEN = {
