@@ -62,7 +62,12 @@ for _, file_name in fs.readDir(directory) do
 end
 
 local text_final = (
-	           "local block_properties = {"
+	           "type properties = {"
+	.. "\n" .. "\t" .. "colour: Color3,"
+	.. "\n" .. "\t" .. "transparency: number,"
+	.. "\n" .. "}"
+	.. "\n"
+	.. "\n" .. "local block_properties: {[string]: properties} = {"
 	.. "\n" .. table.concat(text_pieces)
 	..         "}" -- The text pieces add an extra newline.
 	.. "\n"
