@@ -10,6 +10,9 @@ environment = "roblox"
 [indices]
 default = "https://github.com/pesde-pkg/index"
 
+[wally_indices]
+default = "https://github.com/UpliftGames/wally-index"
+
 [scripts]
 generate_block_properties = "./block_properties/generate.luau"
 roblox_sync_config_generator = ".pesde/scripts/roblox_sync_config_generator.luau"
@@ -25,3 +28,4 @@ lune = "^0.10.2"
 
 [dependencies]
 signal = { name = "molyidev/signal", version = "^1.0.1" }
+fusion = { wally = "elttob/fusion", version = "^0.3.0" }
