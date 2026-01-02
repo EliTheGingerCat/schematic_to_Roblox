@@ -53,7 +53,7 @@ for _, file_name in fs.readDir(directory) do
 	local text = (
 		           "\t" .. `{block_name} = \{`
 		.. "\n" .. "\t" .. "\t" .. `colour = Color3.new({proportion_red}, {proportion_green}, {proportion_blue}),`
-		.. "\n" .. "\t" .. "\t" .. `transparency = {proportion_alpha},`
+		.. "\n" .. "\t" .. "\t" .. `transparency = {1 - proportion_alpha},`
 		.. "\n" .. "\t" .. "},"
 		.. "\n"
 	)
