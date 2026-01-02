@@ -1,6 +1,7 @@
 /.pesde
 /luau_packages
 /lune_packages
+/roblox_packages
 
 /block_properties/textures
 /block_properties/output.luau

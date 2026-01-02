@@ -67,6 +67,17 @@ index_url = "https://github.com/pesde-pkg/index"
 ref_ty = "pesde"
 index_url = "https://github.com/pesde-pkg/index"
 
+[graph."molyidev/signal@1.0.1 roblox"]
+direct = ["signal", { name = "molyidev/signal", version = "^1.0.1", index = "default" }, "standard"]
+
+[graph."molyidev/signal@1.0.1 roblox".pkg_ref]
+ref_ty = "pesde"
+index_url = "https://github.com/pesde-pkg/index"
+
+[graph."molyidev/signal@1.0.1 roblox".pkg_ref.dependencies]
+rojo = [{ name = "pesde/rojo", version = "^7.5.1", index = "https://github.com/pesde-pkg/index", target = "lune" }, "dev"]
+scripts = [{ name = "pesde/scripts_rojo", version = "^0.2.0", index = "https://github.com/pesde-pkg/index", target = "lune" }, "dev"]
+
 [graph."pesde/rojo@7.6.1 lune"]
 direct = ["rojo", { name = "pesde/rojo", version = "^7.5.1", index = "default", target = "lune" }, "dev"]
 
