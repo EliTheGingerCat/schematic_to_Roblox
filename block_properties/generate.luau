@@ -75,4 +75,4 @@ local text_final = (
 	.. "\n"
 )
 
-fs.writeFile("./block_properties/output.luau", text_final)
+fs.writeFile("./src/modules/block_properties/generated.luau", text_final)

@@ -4,4 +4,4 @@
 /roblox_packages
 
 /block_properties/textures
-/block_properties/output.luau
+/src/modules/block_properties/generated.luau
