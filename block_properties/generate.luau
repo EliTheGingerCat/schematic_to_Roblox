@@ -44,9 +44,9 @@ for _, file_name in fs.readDir(directory) do
 	end
 
 	-- Divide by 255 since the components were actually in the range [0, 255]. Alpha was already accounted for in the loop.
-	local proportion_red = total_red / total_pixel / 255
-	local proportion_green = total_green / total_pixel / 255
-	local proportion_blue = total_blue / total_pixel / 255
+	local proportion_red = total_red / total_alpha / 255
+	local proportion_green = total_green / total_alpha / 255
+	local proportion_blue = total_blue / total_alpha / 255
 	local proportion_alpha = total_alpha / total_pixel
 
 	-- Can not use @lune/serde since Color3 is Roblox-specific. I have not checked, but if serde supports `__tostring`, perhaps creating a Color3 object would be worth it.
