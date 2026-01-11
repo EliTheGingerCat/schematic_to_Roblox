@@ -1,0 +1,17 @@
+{
+    {
+        position = {
+            2,
+            2,
+            2,
+        },
+        properties = {
+            name = "diamond_block",
+        },
+        size = {
+            3,
+            3,
+            3,
+        },
+    },
+}
