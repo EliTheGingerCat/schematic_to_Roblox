@@ -2,6 +2,7 @@ name = "elithegingercat/schematic_to_roblox"
 version = "0.1.0"
 description = "A Roblox plugin to convert Minecraft schematics to Roblox models."
 authors = ["DarkenedRing", "EliTheGingerCat"]
+repository = "https://github.com/EliTheGingerCat/schematic_to_Roblox"
 license = "MIT"
 
 [target]
