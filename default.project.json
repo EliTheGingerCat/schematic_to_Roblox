@@ -1,0 +1,12 @@
+{
+	"name": "schematic_to_Roblox",
+	"tree": {
+		"$className": "Folder",
+		"$path": "./src",
+		
+		"roblox_packages": {
+			"$className": "Folder",
+			"$path": "./roblox_packages"
+		}
+	}
+}
