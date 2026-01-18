@@ -135,31 +135,40 @@ type properties = {
 	waterlogged: nil | boolean
 }
 
-type schematic_tag = {
+type schematic_tag_simple = {
+	BlockData: {number},
+	BlockEntities: {},
+	DataVersion: number,
+	Entities: {},
+	Height: number,
+	Length: number,
+	Palette: {[string]: number},
+	PaletteMax: number,
+	Version: number,
+	Width: number,
+}
+
+type schematic_tag_nested = {
 	Schematic: {
 		Blocks: {
-			BlockEntities: {},
 			Data: {number},
 			Palette: {
 				[string]: number
 			}
 		},
-		DataVersion: number,
 		Height: number,
 		Length: number,
-		Metadata: {
-			Data: number,
-			WorldEdit: {
-				EditingPlatform: string,
-				Origin: {},
-				Platforms: {},
-				Version: string
-			}
-		},
-		Offset: {number},
 		Version: number,
 		Width: number
 	}
+}
+
+type normalised = {
+	Blocks: {number},
+	Height: number,
+	Length: number,
+	Palette: {[string]: number},
+	Width: number,
 }
 
 type mess = {
@@ -192,6 +201,38 @@ local function table_simple_equal<K, V>(t1: {[K]: V}, t2: {[K]: V}): boolean
 	return true
 end
 
+local error_not_recognised = "The provided schematic format is not recognised. This can happen since there are multiple different schematic formats in use. Please create a GitHub issue and provide the schematic file, preferably using as small as an example as possible (such as a single block). In the meantime, you can try printing the root tag and investigating its structure to support this schematic's format."
+
+local function assert_or_not_recognised<T>(value: T): T
+	return assert(value, error_not_recognised)
+end
+
+local function normalise(root_any: any): normalised
+	if root_any.BlockData ~= nil then
+		local root: schematic_tag_simple = root_any
+
+		return {
+			Blocks = root.BlockData,
+			Height = assert_or_not_recognised(root.Height),
+			Length = assert_or_not_recognised(root.Length),
+			Palette = assert_or_not_recognised(root.Palette),
+			Width = assert_or_not_recognised(root.Width),
+		}
+	elseif root_any.Schematic ~= nil then
+		local root: schematic_tag_nested = root_any
+
+		return {
+			Blocks = assert_or_not_recognised(root.Schematic.Blocks.Data),
+			Height = assert_or_not_recognised(root.Schematic.Height),
+			Length = assert_or_not_recognised(root.Schematic.Length),
+			Palette = assert_or_not_recognised(root.Schematic.Blocks.Palette),
+			Width = assert_or_not_recognised(root.Schematic.Width),
+		}
+	else
+		error(error_not_recognised)
+	end
+end
+
 --[=[
 	@within Schematic
 	@since v0.1.0
@@ -199,17 +240,19 @@ end
 function Schematic.decode(data: buffer): Schematic
 	local root = named_binary_tag.decode(
 		zip.decode(data)
-	).payload :: schematic_tag
+	).payload
+
 	progress_signal:FireSync("schematic")
-	local rootS = root.Schematic
-	
+
+	local normalised = normalise(root)
+
 	-- set palette to use property tables
 	local palette = {}
 	
 	-- fix property tables that use blacklisted properties (these mess up greedy meshing)
 	local messed_up: {mess} = {}
 	
-	for name_full, index in rootS.Blocks.Palette do
+	for name_full, index in normalised.Palette do
 		name_full = name_full:sub(11) -- remove "minecraft:"
 		if name_full == "air" then
 			continue
@@ -291,9 +334,9 @@ function Schematic.decode(data: buffer): Schematic
 
 	-- Set blocks to their property table.
 	local blocks = {}
-	local total_blocks = #rootS.Blocks.Data
+	local total_blocks = #normalised.Blocks
 	progress_signal:FireSync("palette", 0)
-	for id, paintId in rootS.Blocks.Data do
+	for id, paintId in normalised.Blocks do
 		blocks[id] = palette[paintId]
 
 		if id % 1000 == 0 then
@@ -303,9 +346,9 @@ function Schematic.decode(data: buffer): Schematic
 	progress_signal:FireSync("palette", 1)
 
 	return setmetatable({
-		Width = rootS.Width,
-		Height = rootS.Height,
-		Length = rootS.Length,
+		Width = normalised.Width,
+		Height = normalised.Height,
+		Length = normalised.Length,
 		Blocks = blocks
 	}, metatable) :: any
 end
