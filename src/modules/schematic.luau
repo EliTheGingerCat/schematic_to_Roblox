@@ -118,13 +118,13 @@ export type cuboid = {
 	.type nil | "bottom" | "top" | "double"
 	.waterlogged nil | boolean
 ]]
-type properties = {
+export type properties = {
 	name: string,
 	
 	axis: nil | "x" | "y" | "z",
 	distance: number,
 	facing: nil | "north" | "east" | "south" | "west",
-	half: nil | "bottom" | "top",
+	half: nil | "bottom" | "lower" | "top" | "upper",
 	hinge: nil | "left" | "right",
 	occupied: nil | boolean,
 	open: nil | boolean,

@@ -1,10 +1,12 @@
 local assets = script.Parent.Parent.assets
 local block_properties = require("./block_properties")
+local debug_print = require("./debug_print")
 local progress_signal = require("./progress_signal")
 local schematic = require("./schematic")
 
 type cuboid = schematic.cuboid
-type properties = block_properties.properties
+type properties_Minecraft = schematic.properties
+type properties_Roblox = block_properties.properties
 
 local block_size = 3
 local directions = {
@@ -25,6 +27,9 @@ local directions = {
 		down = Vector3.new(0, 0, 0),
 	},
 }
+-- TODO: Test if this is accurate.
+directions.lower = directions.bottom
+directions.upper = directions.top
 
 local blocks_warned: {[string]: true} = {}
 
@@ -64,6 +69,22 @@ local function get_part(block: cuboid): BasePart
 	end
 end
 
+local function get_orientation(props_M: properties_Minecraft): Vector3?
+	local from_half = directions[props_M.half]
+	if from_half == nil then
+		debug_print(`Unknown value of properties_Minecraft.half: {props_M.half}`)
+		return nil
+	end
+
+	local complete = from_half[props_M.facing]
+	if complete == nil then
+		debug_print(`Unknown value of properties_Minecraft.half: {props_M.half}`)
+		return nil
+	end
+
+	return complete
+end
+
 local function create_model(data: buffer, name: string?): ()
 	local user_schematic = schematic.decode(data)
 
@@ -101,7 +122,7 @@ local function create_model(data: buffer, name: string?): ()
 		part.Size = Vector3.new(table.unpack(block.size)) * block_size
 		
 		-- props_R = properties_Roblox
-		local props_R = block_properties[block_name] :: properties?
+		local props_R = block_properties[block_name] :: properties_Roblox?
 		if props_R ~= nil then
 			part.Color = props_R.colour
 			part.Transparency = props_R.transparency
@@ -111,7 +132,7 @@ local function create_model(data: buffer, name: string?): ()
 			end
 		elseif blocks_warned[block_name] == nil then
 			blocks_warned[block_name] = true
-			print(`[Schematic to Roblox] Block "{block_name}" does not have any Roblox properties and will appear gray.`)
+			debug_print(`Block "{block_name}" does not have any Roblox properties and will appear gray.`)
 		end
 		
 		if is_stair(block) and is_corner_stair(block) then
@@ -139,7 +160,11 @@ local function create_model(data: buffer, name: string?): ()
 			
 			part.CFrame *= orientation
 		elseif props_m.half and props_m.facing then
-			part.Orientation = directions[props_m.half][props_m.facing]
+			local orientation = get_orientation(props_m)
+
+			if orientation ~= nil then
+				part.Orientation = orientation
+			end
 		end
 
 		part.Parent = destination
