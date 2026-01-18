@@ -41,6 +41,7 @@ Honestly, I am not 100% sure if this tutorial is complete. I also have Lune inst
 
 These can be run using `pesde run [name]`.
 
+- build: Build as a local plugin.
 - generate_block_properties: Generate Roblox properties from a Minecraft texture pack.
 - roblox_sync_config_generator: Not sure. pesde automatically added it.
 - sourcemap_generator: Not sure. pesde automatically added it.
