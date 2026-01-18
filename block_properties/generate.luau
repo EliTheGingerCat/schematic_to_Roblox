@@ -10,7 +10,14 @@ local function is_PNG(file_name: string): boolean
 	return string.sub(file_name, -4, -1) == ".png"
 end
 
-for _, file_name in fs.readDir(directory) do
+local file_names: {string}
+if fs.metadata(directory).exists == false then
+	file_names = {}
+else
+	file_names = fs.readDir(directory)
+end
+
+for _, file_name in file_names do
 	if is_PNG(file_name) == false then
 		continue
 	end
