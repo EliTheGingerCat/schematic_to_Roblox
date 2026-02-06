@@ -1,13 +1,24 @@
 local fs = require("@lune/fs")
+local process = require("@lune/process")
 local stdio = require("@lune/stdio")
 
 local schematic = require("./src/modules/schematic")
+
+local name: string? = process.args[1]
 
 local function fail(name: string): ()
 	error(`Test "{name}" failed.`)
 end
 
-for _, case in fs.readDir("./tests/data") do
+local cases: {string}
+
+if name ~= nil then
+	cases = {name}
+else
+	cases = fs.readDir("./tests/data")
+end
+
+for _, case in cases do
 	local input_string = fs.readFile(`./tests/data/{case}/input.schem`)
 	local input = buffer.fromstring(input_string)
 	local schematic_object = schematic.decode(input)
