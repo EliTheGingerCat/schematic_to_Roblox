@@ -66,11 +66,13 @@ local function decode(data: buffer): {name: string, payload: payload}
 			-- TAG_End
 			local top = assert(table.remove(stack), "Stack is empty.")
 			assert(top.kind == "compound", "Top item is not a compound even though TAG_End wants to terminate a compound.")
+			
 			local top_next = stack[#stack]
 			if top_next.kind == "list" then
 				list_is_active = true
 				list_type = top_next.item_type
 			end
+
 			continue
 		end
 
@@ -163,8 +165,16 @@ local function decode(data: buffer): {name: string, payload: payload}
 		elseif top.kind == "list" then
 			local new_index = #top.payload + 1
 			top.payload[new_index] = payload
+
 			if new_index == top.size then
 				table.remove(stack)
+
+				local top_new = stack[#stack]
+				if top_new.kind == "list" then
+					list_type = top_new.item_type
+				else
+					list_is_active = false
+				end
 			end
 		else
 			error(`Item in stack has invalid kind "{top.kind}".`)
